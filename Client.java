@@ -1,3 +1,5 @@
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLOutput;
@@ -5,18 +7,64 @@ import java.util.Scanner;
 
 public class Client {
     private Client() {}
-    Scanner sc=new Scanner(System.in);
+
+    public static Hello bind(String repo) throws RemoteException, NotBoundException {
+        // Getting the registry
+        Registry registry = LocateRegistry.getRegistry(null);
+        return (Hello) registry.lookup(repo);
+    };
+    public static void listp(Hello stub) throws RemoteException {
+        int length = stub.listGet().size();
+        System.out.println(length);
+
+        for (int i=0 ; i<length; i++){
+            System.out.print(i+" : ");
+            System.out.println(stub.listGet().get(i).code);
+        }
+
+
+    };
+    public  void getp() {
+        //todo
+    };
+    public static void showp(Part part, int x) throws RemoteException {
+        System.out.println(part.code);
+        System.out.println(part.name);
+        System.out.println(part.description);
+        System.out.println(part.partsList.size() +" subpeças");
+
+    };
+    public void clearlist() {
+
+    };
+    public void addsubpart() {
+        //todo
+    };
+    public  void addp() {
+        //todo
+    };
     public static void main(String[] args) {
         try {
-            // Getting the registry
-            Registry registry = LocateRegistry.getRegistry(null);
+            Part part = new Part("placeholder","placeholder","mais placeholder");
+            Scanner sc=new Scanner(System.in);
+            String cliCommand="";
+            cliCommand=sc.next();
+            while (!cliCommand.equals("quit")){
+                cliCommand=sc.next();
+
+                Hello stub = bind("Hello");
+                listp(stub);
+                //showp(part,0);
+
+            }
+
 
             // Looking up the registry for the remote object
-            Hello stub = (Hello) registry.lookup("Hello");
-            Hello stub2 =(Hello) registry.lookup("GoodBye");
+
+
             // Calling the remote method using the obtained object
-            stub.printMsg();
-            System.out.println(stub2.Code());
+
+
             // System.out.println("Remote method invoked");
         } catch (Exception e) {
             System.err.println("Client exception: " + e.toString());
