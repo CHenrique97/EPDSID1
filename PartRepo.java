@@ -9,8 +9,8 @@ public class PartRepo implements Hello {
 
     // Implementing the interface method
     public void printMsg() {
-        String[] components= {"mini peça","43"};
-        newPart.partsList.add(components);
+
+        newPart.partsList.add(smallerPart);
         System.out.println(newPart.code);
         System.out.println(newPart.partsList.size());
     }
@@ -22,19 +22,23 @@ public class PartRepo implements Hello {
     public ArrayList<Part>  listGet() {
         return partsList;
     };
-    public  void getp() {
-        //todo
+    public  Part getp(String code,ArrayList<Part> partsList) {
+        for (int k = 0; k<partsList.size();k++){
+            if (partsList.get(k).code.equals(code)){
+                return partsList.get(k);
+            }
+
+
+        }
+        return null;
+    }
+    public void clearlist(int x) {
+        partsList.get(x).partsList= new ArrayList<>();
     };
-    public void showp() {
-        //todo
+    public void addsubpart(int x,Part part) {
+        partsList.get(x).partsList.add(part);
     };
-    public void clearlist() {
-        //todo
-    };
-    public void addsubpart() {
-        //todo
-    };
-    public  void addp() {
-        //todo
+    public  void addp(Part part) {
+        partsList.add(part);
     };
 }

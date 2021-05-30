@@ -5,7 +5,7 @@ public class Part implements Serializable {
     String code;
     String name;
     String description;
-    ArrayList<String[]> partsList = new ArrayList<>();
+    ArrayList<Part> partsList = new ArrayList<>();
     public Part(String code, String name,String description){
         this.code=code;
         this.name=name;

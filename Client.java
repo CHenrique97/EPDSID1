@@ -3,6 +3,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client {
@@ -24,8 +25,8 @@ public class Client {
 
 
     };
-    public  void getp() {
-        //todo
+    public  Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
+        return stub.getp(code,partList);
     };
     public static void showp(Part part, int x) throws RemoteException {
         System.out.println(part.code);
@@ -34,14 +35,14 @@ public class Client {
         System.out.println(part.partsList.size() +" subpeças");
 
     };
-    public void clearlist() {
-
+    public void clearlist(Hello stub, int x) throws RemoteException {
+        stub.clearlist(x);
     };
-    public void addsubpart() {
-        //todo
+    public void addsubpart(Hello stub, int x, Part part) throws RemoteException  {
+        stub.addsubpart(x,part);
     };
-    public  void addp() {
-        //todo
+    public  void addp(Hello stub, Part part) throws RemoteException {
+        stub.addp(part);
     };
     public static void main(String[] args) {
         try {
