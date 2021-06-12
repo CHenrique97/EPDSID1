@@ -25,37 +25,62 @@ public class Client {
 
 
     };
-    public  Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
+    public static Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
         return stub.getp(code,partList);
     };
-    public static void showp(Part part, int x) throws RemoteException {
+    public static void showp(Part part) throws RemoteException {
         System.out.println(part.code);
         System.out.println(part.name);
         System.out.println(part.description);
         System.out.println(part.partsList.size() +" subpeças");
 
     };
-    public void clearlist(Hello stub, int x) throws RemoteException {
+    public static void clearlist(Hello stub, int x) throws RemoteException {
         stub.clearlist(x);
     };
     public void addsubpart(Hello stub, int x, Part part) throws RemoteException  {
         stub.addsubpart(x,part);
     };
-    public  void addp(Hello stub, Part part) throws RemoteException {
+    public static void addp(Hello stub, Part part) throws RemoteException {
         stub.addp(part);
     };
     public static void main(String[] args) {
         try {
             Part part = new Part("placeholder","placeholder","mais placeholder");
+
             Scanner sc=new Scanner(System.in);
 
             String cliCommand="";
+            System.out.println("Digite o repositorio que voce deseja acessar");
             cliCommand=sc.next();
+            Hello stub = bind(cliCommand);
             while (!cliCommand.equals("quit")){
                 cliCommand=sc.next();
-                Hello stub = bind("server2");
-                listp(stub);
-
+                switch (cliCommand) {
+                    case "listp":
+                        listp(stub);
+                        break;
+                    case "getp":
+                        String code = sc.next();
+                        part=getp(stub,code,stub.listGet());
+                        break;
+                    case "showp":
+                        showp(part);
+                        break;
+                    case "clearList":
+                        ArrayList tempList=stub.listGet();
+                        int position=tempList.indexOf(part);
+                        clearlist(stub,position);
+                        break;
+                   /* case "addsubpart":
+                        ArrayList tempList2=stub.listGet();
+                        int position2=tempList2.indexOf(part);
+                        clearlist(stub,position2);
+                        break;*/
+                    case "addp":
+                        addp(stub,part);
+                        break;
+                }
 
             }
 

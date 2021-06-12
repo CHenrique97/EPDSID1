@@ -9,8 +9,6 @@ public class PartRepo implements Hello {
     public Part Data(int x ) {
         return partsList.get(x);
     }
-    public void bind() {//todo
-    };
     public ArrayList<Part>  listGet() {
         return partsList;
     };
