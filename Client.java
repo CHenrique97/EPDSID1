@@ -48,14 +48,14 @@ public class Client {
         try {
             Part part = new Part("placeholder","placeholder","mais placeholder");
             Scanner sc=new Scanner(System.in);
+
             String cliCommand="";
             cliCommand=sc.next();
             while (!cliCommand.equals("quit")){
                 cliCommand=sc.next();
-
-                Hello stub = bind("Hello");
+                Hello stub = bind("server2");
                 listp(stub);
-                //showp(part,0);
+
 
             }
 

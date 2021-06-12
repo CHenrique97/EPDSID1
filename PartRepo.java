@@ -2,18 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PartRepo implements Hello {
-    Part newPart = new Part("Amogus","Columbus","Very sus Indeed");
-
-    Part smallerPart = new Part("VerySus","Augustus","Very sus Indeed");
-    ArrayList<Part> partsList = new ArrayList<>(Arrays. asList(newPart,smallerPart));
+    ArrayList<Part> partsList = new ArrayList<>();
 
     // Implementing the interface method
-    public void printMsg() {
 
-        newPart.partsList.add(smallerPart);
-        System.out.println(newPart.code);
-        System.out.println(newPart.partsList.size());
-    }
     public Part Data(int x ) {
         return partsList.get(x);
     }
