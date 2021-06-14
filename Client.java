@@ -45,7 +45,7 @@ public class Client {
     };
     public static void main(String[] args) {
         try {
-            Part part = new Part("placeholder","placeholder","mais placeholder");
+            Part part = new Part("placeholder","placeholder","mais placeholder",null,true,0,0);
 
             Scanner sc=new Scanner(System.in);
 

@@ -10,10 +10,12 @@ public class Server extends PartRepo {
     public Server() {}
     public static Part partBuilder (String partName,Properties prop){
         String[] partComponents=prop.getProperty(partName).split(",");
-        Part newPart = new Part(partComponents[0],partComponents[1],partComponents[2]);
+
+
+        Part newPart = new Part(partComponents[0], partComponents[1], partComponents[2], partComponents[3], Boolean.parseBoolean(partComponents[4]), Integer.parseInt(partComponents[5]), Integer.parseInt(partComponents[6]));
         if (!partComponents[3].equals("none")) {
 
-            String[] smallerParts = partComponents[3].split(";");
+            String[] smallerParts = partComponents[7].split(";");
             for (int i = 0; i < smallerParts.length; i++) {
                 System.out.println(' '+smallerParts[i]);
                 newPart.partsList.add(partBuilder(smallerParts[i], prop));
@@ -21,6 +23,8 @@ public class Server extends PartRepo {
         }
         return newPart;
     }
+
+
     public static Part[] repoBuilder(String serverName,Hello stub,Properties prop) throws RemoteException {
         String[] partList=prop.getProperty(serverName).split(";");
         for (int i =0; i< partList.length; i++ ){
