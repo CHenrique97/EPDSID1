@@ -9,6 +9,6 @@ public interface Hello extends Remote {
     ArrayList<Part> listGet() throws RemoteException;
     void clearlist(int x) throws RemoteException;
     void addsubpart(int x,Part part) throws RemoteException;
-    void addp(Part part) throws RemoteException;
+    void addp(Part part,String serverName) throws RemoteException;
     Part getp(String code,ArrayList<Part> partsList)throws RemoteException;
 } 

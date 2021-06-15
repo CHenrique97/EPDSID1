@@ -3,6 +3,8 @@ import java.util.Arrays;
 
 public class PartRepo implements Hello {
     ArrayList<Part> partsList = new ArrayList<>();
+    ArrayList<String[]> partLocations = new ArrayList<>();
+    String[] locationPair= new String[2];
 
     // Implementing the interface method
 
@@ -28,7 +30,10 @@ public class PartRepo implements Hello {
     public void addsubpart(int x,Part part) {
         partsList.get(x).partsList.add(part);
     };
-    public  void addp(Part part) {
+    public  void addp(Part part,String serverName) {
         partsList.add(part);
+        locationPair[0]= part.code;
+        locationPair[1]= serverName;
+        partLocations.add(locationPair);
     };
 }

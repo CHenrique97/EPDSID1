@@ -40,19 +40,21 @@ public class Client {
     public void addsubpart(Hello stub, int x, Part part) throws RemoteException  {
         stub.addsubpart(x,part);
     };
-    public static void addp(Hello stub, Part part) throws RemoteException {
-        stub.addp(part);
+    public static void addp(Hello stub, Part part,String currentServer) throws RemoteException {
+        stub.addp(part,currentServer);
     };
     public static void main(String[] args) {
         try {
-            Part part = new Part("placeholder","placeholder","mais placeholder",null,true,0,0);
-
+            Part part = new Part("placeholder","placeholder","mais placeholder",null,true);
+            ArrayList <String[]> subPartList = new ArrayList<>();
             Scanner sc=new Scanner(System.in);
 
             String cliCommand="";
             System.out.println("Digite o repositorio que voce deseja acessar");
             cliCommand=sc.next();
+            String currentServer=cliCommand;
             Hello stub = bind(cliCommand);
+
             while (!cliCommand.equals("quit")){
                 cliCommand=sc.next();
                 switch (cliCommand) {
@@ -71,17 +73,22 @@ public class Client {
                         int position=tempList.indexOf(part);
                         clearlist(stub,position);
                         break;
-                   /* case "addsubpart":
-                        ArrayList tempList2=stub.listGet();
-                        int position2=tempList2.indexOf(part);
-                        clearlist(stub,position2);
-                        break;*/
+                   case "addsubpart":
+                       System.out.println("Digite o numero de sub partes");
+                       int repetitions =sc.nextInt();
+                       String[] data ={part.code,currentServer};
+                       for (int i =0;i <repetitions;i++ ){
+                            subPartList.add(data);
+                       }
+                        break;
                     case "addp":
-                        addp(stub,part);
+                        part.subPartList=subPartList;
+                        addp(stub,part,currentServer);
                         break;
                     case "changerepo":
                         System.out.println("Digite o novo repositorio");
                         cliCommand=sc.next();
+                        currentServer=cliCommand;
                         stub = bind(cliCommand);
                         break;
                 }
