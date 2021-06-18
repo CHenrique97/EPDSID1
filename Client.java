@@ -4,8 +4,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Client {
+
+
     private Client() {}
 
     public static Hello bind(String repo) throws RemoteException, NotBoundException {
@@ -31,8 +34,11 @@ public class Client {
         System.out.println(part.code);
         System.out.println(part.name);
         System.out.println(part.description);
-        System.out.println(part.partsList.size() +" subpeças");
-
+        for (int i=0;i<part.subPartList.size();i++) {
+            System.out.println(part.subPartList.get(i)[0]);
+            System.out.println(part.subPartList.get(i)[1]);
+            System.out.println(part.subPartList.get(i)[2]);
+        }
     };
     public static void clearlist(Hello stub, int x) throws RemoteException {
         stub.clearlist(x);
@@ -42,6 +48,19 @@ public class Client {
     };
     public static void addp(Hello stub, Part part,String currentServer) throws RemoteException {
         stub.addp(part,currentServer);
+    };
+    public static void deletesubp(Hello stub, Part part) throws RemoteException, NotBoundException {
+
+        for (int i=0;i<part.subPartList.size();i++){
+            System.out.println("Apagando parte "+part.subPartList.get(i)[0]+" no server "+part.subPartList.get(i)[1]);
+            System.out.println("Mudando de servidor");
+            stub=bind(part.subPartList.get(i)[1]);
+            System.out.println("apagando peca");
+            stub.deletesubp(part.subPartList.get(i)[0]);
+            System.out.println("removendo da lista");
+
+        }
+            part.subPartList=new ArrayList<>();
     };
     public static void main(String[] args) {
         try {
@@ -62,6 +81,7 @@ public class Client {
                         listp(stub);
                         break;
                     case "getp":
+                        System.out.println("Digite o codigo da peça");
                         String code = sc.next();
                         part=getp(stub,code,stub.listGet());
                         break;
@@ -75,15 +95,32 @@ public class Client {
                         break;
                    case "addsubpart":
                        System.out.println("Digite o numero de sub partes");
-                       int repetitions =sc.nextInt();
-                       String[] data ={part.code,currentServer};
-                       for (int i =0;i <repetitions;i++ ){
-                            subPartList.add(data);
-                       }
+                       String repetitions =sc.next();
+                       part.isPrimitive=false;
+                       String[] data ={part.code,currentServer,repetitions};
+                       subPartList.add(data);
+                       System.out.println("Peças adicionadas");
+
                         break;
                     case "addp":
+                        System.out.println("adicionado parte ...");
                         part.subPartList=subPartList;
                         addp(stub,part,currentServer);
+                        System.out.println("parte adicionada");
+                        break;
+                    case "createp":
+                        String partCode =  UUID.randomUUID().toString();
+                        System.out.println("Digite o nome da peça");
+                        String partName=sc.next();
+                        System.out.println("Digite a descrição da peça");
+                        String partDesc=sc.next();
+                        part = new Part(partCode,partName,partDesc, currentServer,true);
+                        System.out.println("Peça criada");
+                        System.out.println("Codigo da peça:"+part.code);
+                        System.out.println("Nome   da peça:"+part.name);
+                        System.out.println("Descriçao da peça:"+part.description);
+                        System.out.println("Repositorio da peça:"+part.repository);
+                        System.out.println("Peça é primitiva:"+part.isPrimitive);
                         break;
                     case "changerepo":
                         System.out.println("Digite o novo repositorio");
@@ -91,7 +128,15 @@ public class Client {
                         currentServer=cliCommand;
                         stub = bind(cliCommand);
                         break;
-                }
+                    case "deletesubp":
+
+                        deletesubp(stub,part);
+
+                        break;
+                    default:
+                        System.out.println("Comando não reconhecido");
+                        break;
+            }
 
             }
 

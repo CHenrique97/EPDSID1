@@ -18,7 +18,8 @@ public class Server extends PartRepo {
             String[] smallerParts = partComponents[7].split(";");
             for (int i = 0; i < smallerParts.length; i++) {
                 System.out.println(' '+smallerParts[i]);
-                newPart.partsList.add(partBuilder(smallerParts[i], prop));
+                String[] SMPparts=prop.getProperty(smallerParts[i]).split(",");
+                newPart.subPartList.add(new String[]{SMPparts[0], SMPparts[3], "420"});
             }
         }
         return newPart;

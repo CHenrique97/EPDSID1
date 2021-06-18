@@ -36,4 +36,14 @@ public class PartRepo implements Hello {
         locationPair[1]= serverName;
         partLocations.add(locationPair);
     };
-}
+    public void deletesubp(String partCode) {
+
+
+        for (int k = 0; k < partsList.size(); k++) {
+            if (partsList.get(k).code.equals(partCode)) {
+                partsList.remove(k);
+            }
+
+        }
+    }
+    }
