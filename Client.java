@@ -12,7 +12,7 @@ public class Client {
     private Client() {}
 
     public static Hello bind(String repo) throws RemoteException, NotBoundException {
-        // Getting the registry
+
         Registry registry = LocateRegistry.getRegistry(null);
         return (Hello) registry.lookup(repo);
     };
@@ -30,6 +30,7 @@ public class Client {
         System.out.println("Descriçao da peça:"+part.description);
         System.out.println("Repositorio da peça:"+part.repository);
         System.out.println("Peça é primitiva:"+part.isPrimitive);
+        sc.close();
         return part;
     }
 
@@ -47,6 +48,7 @@ public class Client {
     public static Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
         return stub.getp(code,partList);
     };
+
     public static void showp(Part part) throws RemoteException {
         System.out.println(part.code);
         System.out.println(part.name);
@@ -60,8 +62,33 @@ public class Client {
     public static void clearlist(Hello stub, int x) throws RemoteException {
         stub.clearlist(x);
     };
-    public void addsubpart(Hello stub, int x, Part part) throws RemoteException  {
-        stub.addsubpart(x,part);
+    public static Part addsubpart(String currentServer ,Part part,ArrayList <String[]> subPartList) throws RemoteException  {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Digite o numero de sub partes");
+        String repetitions =sc.next();
+        part.isPrimitive=false;
+        String[] data ={part.code,currentServer,repetitions};
+        subPartList.add(data);
+        System.out.println("Peças adicionadas");
+        part.subPartList=subPartList;
+        sc.close();
+        return part;
+    };
+    public static Part addforeignsubpart(Part part,ArrayList <String[]> subPartList) throws RemoteException  {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Digite o codigo da peça");
+        String partCode =sc.next();
+        System.out.println("Digite o repositorio");
+        String foreignServer =sc.next();
+        System.out.println("Digite o numero de sub partes");
+        String repetitions =sc.next();
+        part.isPrimitive=false;
+        String [] data = new String[]{partCode, foreignServer, repetitions};
+        subPartList.add(data);
+        part.subPartList=subPartList;
+        System.out.println("Peças adicionadas");
+        sc.close();
+        return part;
     };
     public static void addp(Hello stub, Part part,String currentServer) throws RemoteException {
         stub.addp(part,currentServer);
@@ -111,13 +138,11 @@ public class Client {
                         clearlist(stub,position);
                         break;
                    case "addsubpart":
-                       System.out.println("Digite o numero de sub partes");
-                       String repetitions =sc.next();
-                       part.isPrimitive=false;
-                       String[] data ={part.code,currentServer,repetitions};
-                       subPartList.add(data);
-                       System.out.println("Peças adicionadas");
+                        part = addsubpart(currentServer,part,subPartList);
+                       break;
+                    case "addforeignsubpart":
 
+                        part = addforeignsubpart(part,subPartList);
                         break;
                     case "addp":
                         System.out.println("adicionado parte ...");
