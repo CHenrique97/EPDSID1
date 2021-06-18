@@ -16,6 +16,23 @@ public class Client {
         Registry registry = LocateRegistry.getRegistry(null);
         return (Hello) registry.lookup(repo);
     };
+    public static Part createp (String currentServer){
+        Scanner sc=new Scanner(System.in);
+        String partCode =  UUID.randomUUID().toString();
+        System.out.println("Digite o nome da peça");
+        String partName=sc.next();
+        System.out.println("Digite a descrição da peça");
+        String partDesc=sc.next();
+        Part part = new Part(partCode,partName,partDesc, currentServer,true);
+        System.out.println("Peça criada");
+        System.out.println("Codigo da peça:"+part.code);
+        System.out.println("Nome   da peça:"+part.name);
+        System.out.println("Descriçao da peça:"+part.description);
+        System.out.println("Repositorio da peça:"+part.repository);
+        System.out.println("Peça é primitiva:"+part.isPrimitive);
+        return part;
+    }
+
     public static void listp(Hello stub) throws RemoteException {
         int length = stub.listGet().size();
         System.out.println(length);
@@ -109,18 +126,7 @@ public class Client {
                         System.out.println("parte adicionada");
                         break;
                     case "createp":
-                        String partCode =  UUID.randomUUID().toString();
-                        System.out.println("Digite o nome da peça");
-                        String partName=sc.next();
-                        System.out.println("Digite a descrição da peça");
-                        String partDesc=sc.next();
-                        part = new Part(partCode,partName,partDesc, currentServer,true);
-                        System.out.println("Peça criada");
-                        System.out.println("Codigo da peça:"+part.code);
-                        System.out.println("Nome   da peça:"+part.name);
-                        System.out.println("Descriçao da peça:"+part.description);
-                        System.out.println("Repositorio da peça:"+part.repository);
-                        System.out.println("Peça é primitiva:"+part.isPrimitive);
+                        part=createp(currentServer);
                         break;
                     case "changerepo":
                         System.out.println("Digite o novo repositorio");
