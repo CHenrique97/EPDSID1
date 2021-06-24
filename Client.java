@@ -46,18 +46,30 @@ public class Client {
 
     };
     public static Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
+        System.out.println("/////////////// Peça selecionada ///////////////");
         return stub.getp(code,partList);
     };
 
     public static void showp(Part part) throws RemoteException {
-        System.out.println(part.code);
-        System.out.println(part.name);
-        System.out.println(part.description);
-        for (int i=0;i<part.subPartList.size();i++) {
-            System.out.println(part.subPartList.get(i)[0]);
-            System.out.println(part.subPartList.get(i)[1]);
-            System.out.println(part.subPartList.get(i)[2]);
+        System.out.println("/////////////// Detalhes da peca ///////////////");
+
+        System.out.println("Codigo: " + part.code);
+        System.out.println("Nome: " + part.name);
+        System.out.println("Descricao: " + part.description);
+        System.out.println("E primitivo : " + part.isPrimitive);
+        if(part.subPartList.size() > 0) {
+            System.out.println("Esta peca contem subpartes:");
         }
+        else {
+            System.out.println("Esta peca nao contem subpartes.");
+        }
+        for (int i=0;i<part.subPartList.size();i++) {
+            System.out.println("//////////// Detalhes da subparte " + i + " ////////////");
+            System.out.println("Nome: " + part.subPartList.get(i)[0]);
+            System.out.println("Repositorio: " + part.subPartList.get(i)[1]);
+            System.out.println("Quantidade: " + part.subPartList.get(i)[2]);
+        }
+        System.out.println("///////////////////////////////////////////////");
     };
     public static void clearlist(Hello stub, int x) throws RemoteException {
         stub.clearlist(x);
@@ -69,14 +81,14 @@ public class Client {
         part.isPrimitive=false;
         String[] data ={part.code,currentServer,repetitions};
         subPartList.add(data);
-        System.out.println("Peças adicionadas");
+        System.out.println("Pecas adicionadas");
         part.subPartList=subPartList;
         sc.close();
         return part;
     };
     public static Part addforeignsubpart(Part part,ArrayList <String[]> subPartList) throws RemoteException  {
         Scanner sc=new Scanner(System.in);
-        System.out.println("Digite o codigo da peça");
+        System.out.println("Digite o codigo da peca");
         String partCode =sc.next();
         System.out.println("Digite o repositorio");
         String foreignServer =sc.next();
@@ -86,7 +98,7 @@ public class Client {
         String [] data = new String[]{partCode, foreignServer, repetitions};
         subPartList.add(data);
         part.subPartList=subPartList;
-        System.out.println("Peças adicionadas");
+        System.out.println("Pecas adicionadas");
         sc.close();
         return part;
     };
