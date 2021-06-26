@@ -19,18 +19,19 @@ public class Client {
     public static Part createp (String currentServer){
         Scanner sc=new Scanner(System.in);
         String partCode =  UUID.randomUUID().toString();
-        System.out.println("Digite o nome da peça");
-        String partName=sc.next();
-        System.out.println("Digite a descrição da peça");
-        String partDesc=sc.next();
+        System.out.println("Digite o nome da peca");
+        String partName=sc.nextLine();
+        System.out.println("Digite a descrição da peca");
+        String partDesc=sc.nextLine();
         Part part = new Part(partCode,partName,partDesc, currentServer,true);
-        System.out.println("Peça criada");
-        System.out.println("Codigo da peça:"+part.code);
-        System.out.println("Nome   da peça:"+part.name);
-        System.out.println("Descriçao da peça:"+part.description);
-        System.out.println("Repositorio da peça:"+part.repository);
-        System.out.println("Peça é primitiva:"+part.isPrimitive);
-        sc.close();
+        part.subPartList = new ArrayList<>();
+        System.out.println("Peca criada");
+        System.out.println("Codigo da peca:"+part.code);
+        System.out.println("Nome   da peca:"+part.name);
+        System.out.println("Descriçao da peca:"+part.description);
+        System.out.println("Repositorio da peca:"+part.repository);
+        System.out.println("Peca e primitiva:"+part.isPrimitive);
+
         return part;
     }
 
@@ -82,8 +83,7 @@ public class Client {
         String[] data ={part.code,currentServer,repetitions};
         subPartList.add(data);
         System.out.println("Pecas adicionadas");
-        part.subPartList=subPartList;
-        sc.close();
+
         return part;
     };
     public static Part addforeignsubpart(Part part,ArrayList <String[]> subPartList) throws RemoteException  {
@@ -97,9 +97,8 @@ public class Client {
         part.isPrimitive=false;
         String [] data = new String[]{partCode, foreignServer, repetitions};
         subPartList.add(data);
-        part.subPartList=subPartList;
+
         System.out.println("Pecas adicionadas");
-        sc.close();
         return part;
     };
     public static void addp(Hello stub, Part part,String currentServer) throws RemoteException {
@@ -121,6 +120,7 @@ public class Client {
     public static void main(String[] args) {
         try {
             Part part = new Part("placeholder","placeholder","mais placeholder",null,true);
+            Part subpart = new Part("placeholder","placeholder","mais placeholder",null,true);
             ArrayList <String[]> subPartList = new ArrayList<>();
             Scanner sc=new Scanner(System.in);
 
