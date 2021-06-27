@@ -57,26 +57,28 @@ public class Client {
     };
 
     public static void showp(Part part) throws RemoteException {
-        System.out.println("/////////////// Detalhes da peca ///////////////");
+        if (part.code=="placeholder"){
+            System.out.println("Nenhuma peca foi selecionada");
+        } else {
+            System.out.println("/////////////// Detalhes da peca ///////////////");
 
-        System.out.println("Codigo: " + part.code);
-        System.out.println("Nome: " + part.name);
-        System.out.println("Descricao: " + part.description);
-        System.out.println("E primitivo : " + part.isPrimitive);
-        if(part.subPartList.size() > 0) {
-            System.out.println("Esta peca contem subpartes:");
-        }
-        else {
-            System.out.println("Esta peca nao contem subpartes.");
-        }
-        for (int i=0;i<part.subPartList.size();i++) {
-            System.out.println("//////////// Detalhes da subparte " + i + " ////////////");
-            System.out.println("Nome: " + part.subPartList.get(i)[0]);
-            System.out.println("Repositorio: " + part.subPartList.get(i)[1]);
-            System.out.println("Quantidade: " + part.subPartList.get(i)[2]);
-        }
-        System.out.println("///////////////////////////////////////////////");
-    };
+            System.out.println("Codigo: " + part.code);
+            System.out.println("Nome: " + part.name);
+            System.out.println("Descricao: " + part.description);
+            System.out.println("E primitivo : " + part.isPrimitive);
+            if (part.subPartList.size() > 0) {
+                System.out.println("Esta peca contem subpartes:");
+            } else {
+                System.out.println("Esta peca nao contem subpartes.");
+            }
+            for (int i = 0; i < part.subPartList.size(); i++) {
+                System.out.println("//////////// Detalhes da subparte " + i + " ////////////");
+                System.out.println("Nome: " + part.subPartList.get(i)[0]);
+                System.out.println("Repositorio: " + part.subPartList.get(i)[1]);
+                System.out.println("Quantidade: " + part.subPartList.get(i)[2]);
+            }
+            System.out.println("///////////////////////////////////////////////");
+        } };
     public static void clearlist(Hello stub, int x) throws RemoteException {
         stub.clearlist(x);
     };

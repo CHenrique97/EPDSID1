@@ -25,7 +25,7 @@ public class PartRepo implements Hello {
         return null;
     }
     public void clearlist(int x) {
-        partsList.get(x).partsList= new ArrayList<>();
+        partsList= new ArrayList<>();
     };
     public void addsubpart(int x,Part part) {
         partsList.get(x).partsList.add(part);
