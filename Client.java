@@ -25,29 +25,34 @@ public class Client {
         String partDesc=sc.nextLine();
         Part part = new Part(partCode,partName,partDesc, currentServer,true);
         part.subPartList = new ArrayList<>();
-        System.out.println("Peca criada");
-        System.out.println("Codigo da peca:"+part.code);
-        System.out.println("Nome   da peca:"+part.name);
-        System.out.println("Descriçao da peca:"+part.description);
-        System.out.println("Repositorio da peca:"+part.repository);
-        System.out.println("Peca e primitiva:"+part.isPrimitive);
-
+        System.out.println("///////////////// Peca criada /////////////////");
+        System.out.println("Codigo da peca: "+part.code);
+        System.out.println("Nome da peca: "+part.name);
+        System.out.println("Descricao da peca: "+part.description);
+        System.out.println("Repositorio da peca: "+part.repository);
+        System.out.println("Peca e primitiva: "+part.isPrimitive);
+        System.out.println("///////////////////////////////////////////////");
         return part;
     }
 
     public static void listp(Hello stub) throws RemoteException {
         int length = stub.listGet().size();
-        System.out.println(length);
+
+        System.out.println("/////////////// Lista de pecas ////////////////");
+        System.out.println("Este repositorio contem " + length + " pecas:");
 
         for (int i=0 ; i<length; i++){
             System.out.print(i+" : ");
             System.out.println(stub.listGet().get(i).code);
         }
-
-
+        System.out.println("///////////////////////////////////////////////");
     };
     public static Part getp(Hello stub, String code, ArrayList<Part> partList) throws RemoteException {
-        System.out.println("/////////////// Peça selecionada ///////////////");
+        if("placeholder".compareTo(stub.getp(code, partList).name) == 0) {
+            System.out.println("/////////// Nenhuma peca selecionada ///////////");
+            return stub.getp(code,partList);
+        }
+        System.out.println("/////////////// Peca selecionada ///////////////");
         return stub.getp(code,partList);
     };
 
@@ -82,7 +87,7 @@ public class Client {
         part.isPrimitive=false;
         String[] data ={part.code,currentServer,repetitions};
         subPartList.add(data);
-        System.out.println("Pecas adicionadas");
+        System.out.println("/////////////// Pecas adicionadas //////////////");
 
         return part;
     };
@@ -98,7 +103,7 @@ public class Client {
         String [] data = new String[]{partCode, foreignServer, repetitions};
         subPartList.add(data);
 
-        System.out.println("Pecas adicionadas");
+        System.out.println("/////////////// Pecas adicionadas //////////////");
         return part;
     };
     public static void addp(Hello stub, Part part,String currentServer) throws RemoteException {
@@ -137,7 +142,7 @@ public class Client {
                         listp(stub);
                         break;
                     case "getp":
-                        System.out.println("Digite o codigo da peça");
+                        System.out.println("Digite o codigo da peca");
                         String code = sc.next();
                         part=getp(stub,code,stub.listGet());
                         break;
@@ -157,10 +162,10 @@ public class Client {
                         part = addforeignsubpart(part,subPartList);
                         break;
                     case "addp":
-                        System.out.println("adicionado parte ...");
+                        System.out.println("///////////// Adicionando Peca... //////////////");
                         part.subPartList=subPartList;
                         addp(stub,part,currentServer);
-                        System.out.println("parte adicionada");
+                        System.out.println("/////////////// Peca adicionada ////////////////");
                         break;
                     case "createp":
                         part=createp(currentServer);
@@ -170,6 +175,7 @@ public class Client {
                         cliCommand=sc.next();
                         currentServer=cliCommand;
                         stub = bind(cliCommand);
+                        System.out.println("///////////// Repositorio acessado /////////////");
                         break;
                     case "deletesubp":
 
